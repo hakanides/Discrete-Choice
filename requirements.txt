@@ -1,0 +1,2 @@
+pandas>=2.2.0
+biogeme>=3.2.12
