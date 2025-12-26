@@ -55,6 +55,29 @@ constant for B. Any design attributes merged earlier (e.g., cost or time)
 become part of the utility specification automatically. The usual Biogeme
 reports are written to the requested output directory.
 
+### Estimating a hybrid choice model (HCM)
+
+To include a latent attitude variable measured by binary indicators, use the
+hybrid choice example. It needs the processed long-format choices **plus** a
+separate respondent-level file that contains `respondent_id`, one or more
+indicator columns (0/1), and any structural variables you want to link to the
+latent variable:
+
+```bash
+python scripts/estimate_hcm.py \
+    --input processed/choices_long.csv \
+    --indicators survey_indicators.csv \
+    --indicator-cols ind_env ind_cost \
+    --struct-vars age income \
+    --output biogeme_hcm
+```
+
+If `--indicator-cols` is omitted, every column in the indicators file that is
+not `respondent_id` or listed in `--struct-vars` will be treated as a binary
+measurement. Each indicator receives its own loading and intercept, the latent
+variable enters the utility of alternative B, and measurement likelihood terms
+are weighted so they contribute once per respondent.
+
 ### Notes on filtering
 
 The script automatically removes preview submissions, unfinished responses, and
